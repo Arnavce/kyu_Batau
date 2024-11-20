@@ -1,0 +1,8 @@
+/users
+/movies 
+/moviecast
+/movircrew
+/moviereviews
+/theaters
+/screens
+/

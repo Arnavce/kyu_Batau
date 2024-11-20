@@ -1,0 +1,261 @@
+import { Gender, Prisma, PrismaClient } from "@prisma/client";
+import express, { response } from "express";
+import { string } from "zod";
+
+const prisma = new PrismaClient();
+const app = express();
+
+app.use(express.json());
+
+app.post("/users", async (req, res) => {
+  const {
+    username,
+    password_hash,
+    phone_number,
+    location,
+    email,
+    gender,
+    dob,
+  } = req.body;
+
+  const response = await prisma.users.create({
+    data: {
+      username,
+      password_hash,
+      phone_number,
+      location,
+      email,
+      gender,
+      dob,
+    },
+  });
+
+  console.log(response);
+
+  // {
+//     "username": "Spide0rrman",
+//     "password_hash": "hashedshhhh",
+//     "phone_number": "93847562538",
+//     "location": "delhiuniversity",
+//     "email": "rishabhspoder00@gmail.com",
+//     "gender": "MALE",
+//     "dob": "2005-01-01T00:00:00.000Z"
+// }
+
+  res.json({
+    msg: "You now exist in my database, Be Grateful",
+  });
+});
+
+
+
+app.get("/users", async (req, res) => {
+  const all_users = await prisma.users.findMany({
+    select: {
+      id: true,
+      username: true,
+      phone_number: true,
+      location: true,
+      email: true,
+      gender: true,
+      dob: true,
+    },
+  });
+  res.json(all_users);
+});
+
+app.post("/movies", async (req, res) => {
+  const {
+    title,
+    description,
+    duration,
+    release_data,
+    language,
+    genre,
+    imdb_rating,
+    trailer_link,
+  } = req.body;
+
+  const response = await prisma.movies.create({
+    data: {
+      title,
+      description,
+      duration,
+      release_data,
+      language,
+      genre,
+      imdb_rating,
+      trailer_link,
+    }
+  });
+
+  console.log(response);
+
+//   {
+//     "title": "Beast",
+//     "description": "An action film about an ex-RAW agent who takes on a terrorist organization.",
+//     "duration": 150,
+//     "release_data": "2022-04-13T00:00:00.000Z",
+//     "language": "Hindi",
+//     "genre": "Action, Thriller",
+//     "imdb_rating": 7.0,
+//     "trailer_link": "https://www.youtube.com/watch?v=example"
+// }
+
+  res.json({
+    msg: "new movie added to database",
+  });
+});
+
+app.get("/movies", async (req, res) => {
+    const all_movies = await prisma.movies.findMany();
+    const casts = await prisma.movie_cast.findMany();
+    res.json({
+        movies: all_movies,
+        casts: casts
+    });
+});
+
+  app.post("/moviecast", async (req, res) => {
+    console.log("Received request for /moviecast"); 
+    const { movie_id, actor_name, role, } = req.body;
+
+    const response = await prisma.movie_cast.create({
+        data: {
+            movie_id,
+            actor_name,
+            role
+        }
+    });
+    console.log(response);
+
+    // {
+    //     "movie_id": 10,
+    //     "actor_name": "Ajay Devgn",
+    //     "role": "Maharaja"
+    // }
+
+    res.json({
+        msg: "Movie cast updated",
+    });
+});
+
+app.post("/moviecrew", async(req,res)=>{
+  console.log("Received request for /moviecrew"); 
+  const { movie_id,crew_member_name ,role} = req.body;
+
+  const response = await prisma.movie_crew.create({
+    data: {
+      movie_id,
+      crew_member_name,
+      role
+    }
+  });
+  console.log(response);
+  
+  res.json({
+    msg: "Movie crew updated",
+});
+
+})
+
+app.get("/moviecrew", async(req,res)=>{
+  const movie_crew = await prisma.movie_crew.findMany();
+  res.json(movie_crew);
+})
+
+app.post("/moviereviews", async (req, res) => {
+  console.log("Received request for /moviereviews");
+  
+  const { movie_id, user_id, review_tetxt, rating } = req.body;
+
+  
+    const response = await prisma.movie_reviews.create({
+      data: {
+        movie_id,
+        user_id,
+        review_tetxt,
+        rating,
+        review_date: new Date()  
+      }
+    });
+
+    console.log(response);
+    
+    res.json({
+      msg: "Movie review added",
+      review: response
+    });
+  
+});
+
+app.get("/moviereviews", async (req, res) => {
+    const moviereviews = await prisma.movie_reviews.findMany();
+    res.json(moviereviews);
+})
+
+app.post("/theaters",async(req,res)=>{
+    const {name , location, total_screens} = req.body;
+    
+
+    const response = await prisma.theaters.create({
+      data: {
+        name,
+        location,
+        total_screens
+      }
+    });
+
+    console.log(response);
+
+    res.json({
+      msg:"theater added"
+    });    
+
+
+})
+
+app.get("/theaters",async(req,res)=>{
+  const theaters = await prisma.theaters.findMany();
+  res.json(theaters);
+});
+
+app.post("/screens", async(req,res)=>{
+const{theater_id,  screen_type ,total_seats} = req.body;
+
+  const response = await prisma.screen.create({
+    data:{
+      theater_id,
+      screen_type,
+      total_seats
+    }
+  });
+
+  console.group(response);
+
+  res.json({
+    msg:"screen added"
+  });    
+
+
+})
+
+app.get("/screens", async(req,res)=>{
+  const screens = await prisma.screen.findMany();
+  res.json(screens);
+
+})
+
+app.post("/shows", async(req,res)=>{
+const{movie_id,screen_id,show_time,price,} = req.body;
+
+})
+
+
+
+
+
+
+const server = app.listen(3000, () =>
+  console.log(` Server ready at: http://localhost:3000`)
+);

@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  NON_BINARY
+}
+
+enum Method {
+  CREDIT_CARD
+  DEBIT_CARD
+  NET_BANKING
+  UPI_WALLET
+}
+
+enum Status {
+  BOOKED 
+  FAILED 
+  COMPLETED
+}
+
+enum Rating {
+  WORSE 
+  BAD 
+  OK 
+  GOOD 
+  AMAZING
+  FANTASTIC 
+  GOAT
+}
+
+model User {
+  id            Int    @id @default(autoincrement())
+  username      String @unique
+  email         String @unique
+  password_hash String 
+  phone_number  String
+  location      String
+  dob           DateTime
+  gender        Gender
+  created_at    DateTime @default(now())
+  bookings      Booking[]
+  movie_reviews MovieReview[]
+}
+
+model Theater {
+  id             Int     @id @default(autoincrement())
+  name           String
+  location       String
+  total_screens  Int
+  screens        Screen[]
+  seat_references SeatReference[]
+}
+
+model Movie {
+  id             Int     @id @default(autoincrement())
+  title          String
+  description    String
+  duration       Int
+  release_date   DateTime
+  language       String
+  genre          String
+  imdb_rating    Float
+  trailer_link   String
+  shows          Show[]
+  movie_cast     MovieCast[]
+  movie_crew     MovieCrew[]
+  movie_reviews  MovieReview[]
+}
+
+model Screen {
+  id           Int     @id @default(autoincrement())
+  theater_id   Int
+  theater      Theater @relation(fields: [theater_id], references: [id])
+  screen_type  String 
+  total_seats  Int
+  shows        Show[]
+}
+
+model Show {
+  id              Int     @id @default(autoincrement())
+  movie_id        Int
+  movie           Movie   @relation(fields: [movie_id], references: [id])
+  screen_id       Int
+  screen          Screen  @relation(fields: [screen_id], references: [id])
+  show_time       DateTime
+  price           Float
+  available_seats Int
+  seats           Seat[]
+  bookings        Booking[]
+  tickets         Ticket[]
+}
+
+
+
+model Ticket {
+  id           Int     @id @default(autoincrement())
+  show_id      Int
+  show         Show    @relation(fields: [show_id], references: [id])
+  booking_id   Int
+  booking      Booking @relation(fields: [booking_id], references: [id])
+  seat_number  String
+  ticket_price Float
+  issue_date   DateTime
+}
+
+model Seat {
+  id              Int     @id @default(autoincrement())
+  show_id         Int
+  show            Show    @relation(fields: [show_id], references: [id])
+  seat_number     String
+  is_booked       Boolean
+  seat_row        Int
+  seat_column     Int
+  preference_id   Int
+  preference_score Int
+}
+
+model SeatReference {
+  id          Int     @id @default(autoincrement())
+  theater_id  Int
+  theater     Theater @relation(fields: [theater_id], references: [id])
+  seat_type   String
+  description String
+}
+
+model Booking {
+  id              Int        @id @default(autoincrement())
+  user_id         Int
+  user            User       @relation(fields: [user_id], references: [id])
+  show_id         Int
+  show            Show       @relation(fields: [show_id], references: [id])
+  booking_date    DateTime
+  total_amount    Float
+  status          Status
+  payments        Payment[]
+  transaction_id  String
+  transaction     Transaction @relation(fields: [transaction_id], references: [id])
+  tickets         Ticket[]
+}
+
+model Transaction {
+  id              String     @id @default(uuid())
+  transaction_date DateTime
+  amount          Float
+  status          Status
+  bookings        Booking[]
+}
+
+model Payment {
+  id              String     @id @default(uuid())
+  booking_id      Int
+  booking         Booking    @relation(fields: [booking_id], references: [id])
+  payment_date    DateTime
+  payment_amount  Float
+  payment_method  Method
+  payment_status  Status
+  transaction_id  String
+}
+
+model MovieCast {
+  id              Int        @id @default(autoincrement())
+  movie_id        Int
+  movie           Movie      @relation(fields: [movie_id], references: [id])
+  actor_name      String
+  role            String
+}
+
+model MovieCrew {
+  id              Int        @id @default(autoincrement())
+  movie_id        Int
+  movie           Movie      @relation(fields: [movie_id], references: [id])
+  crew_member_name String
+  role            String
+}
+
+model MovieReview {
+  id              Int        @id @default(autoincrement())
+  movie_id        Int
+  movie           Movie      @relation(fields: [movie_id], references: [id])
+  user_id         Int
+  user            User       @relation(fields: [user_id], references: [id])
+  review_text     String
+  rating          Rating
+  review_date     DateTime
+}
