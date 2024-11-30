@@ -21,7 +21,7 @@ router.post("/cast", async (req, res) => {
 
 router.get("/cast", async (req, res) => {
   const all_casts = await prisma.movieCast.findMany({
-    include: { movie: true }, // Include associated movie data
+    include: { movie: true }, 
   });
 
   res.json(all_casts);
@@ -44,7 +44,7 @@ router.post("/crew", async (req, res) => {
 
 router.get("/crew", async (req, res) => {
   const all_crew = await prisma.movieCrew.findMany({
-    include: { movie: true }, // Include associated movie data
+    include: { movie: true }, 
   });
 
   res.json(all_crew);
@@ -70,8 +70,8 @@ router.post("/review", async (req, res) => {
 router.get("/review", async (req, res) => {
   const all_reviews = await prisma.movieReview.findMany({
     include: {
-      movie: true, // Include associated movie data
-      user: true, // Include associated user data
+      movie: true,
+      user: true, 
     },
   });
 

@@ -24,7 +24,7 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             data: {
                 name,
                 location,
-                total_screens,
+                total_screens
             },
         });
         res.json({

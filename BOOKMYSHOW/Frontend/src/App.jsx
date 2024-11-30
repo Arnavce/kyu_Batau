@@ -12,6 +12,8 @@ import PaymentScreen from "../pages/Transactions.jsx";
 import TicketPage from "../pages/Tickets.jsx";
 import LoginPage from "../pages/Login.jsx";
 import Home from "../pages/Home.jsx";
+import SignupPage from "../pages/Signup.jsx";
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/transactions" element={<PaymentScreen />} /> {/* Corrected this line */}
           <Route path="/tickets" element={<TicketPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage/>} />
           <Route path="/" element={<Home />} />
 
           

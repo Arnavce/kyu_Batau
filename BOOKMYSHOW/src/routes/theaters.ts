@@ -4,7 +4,6 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Route to create a new theater
 router.post("/", async (req, res) => {
   const { name, location, total_screens } = req.body;
 
@@ -13,7 +12,7 @@ router.post("/", async (req, res) => {
       data: {
         name,
         location,
-        total_screens,
+        total_screens
       },
     });
     
@@ -27,7 +26,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Route to get all theaters
 router.get("/", async (req, res) => {
   try {
     const theaters = await prisma.theater.findMany();

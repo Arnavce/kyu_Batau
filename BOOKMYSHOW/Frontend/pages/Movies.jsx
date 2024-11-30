@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link for routing
+import { Link } from "react-router-dom"; 
 
 export const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -19,7 +19,7 @@ export const Movies = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen py-10 px-4">
+    <div className="bg-gradient-to-r from-black via-blue-900 to-blue-700 min-h-screen py-10 px-4">
       <h1 className="text-4xl font-bold text-white text-center mb-10">
         Movies Collection
       </h1>
@@ -30,29 +30,27 @@ export const Movies = () => {
           {movies.map((movie) => (
             <div
               key={movie.id}
-              className="bg-white rounded-xl shadow-lg p-6 space-y-4 hover:scale-105 transform transition duration-300 border border-gray-300"
+              className="bg-slate-900 rounded-xl shadow-lg p-6 space-y-4 hover:scale-105 transform transition duration-300 border border-gray-300"
             >
-              {/* Image section */}
-              <div className="flex justify-center">
-                <img
-                  src={movie.image_url || "https://s.studiobinder.com/wp-content/uploads/2019/06/Movie-Poster-Template-Movie-Credits-StudioBinder.jpg"} // Placeholder for image, replace it later with the actual URL
-                  alt={`${movie.title} Poster`}
-                  className="w-64 h-96 object-cover rounded-lg shadow-lg mb-4"
-                />
-              </div>
+              {/* Movie Poster */}
+              <img
+                src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg"
+                alt={`${movie.title} Poster`}
+                className="w-full h-88 object-cover rounded-lg mb-4"
+              />
 
-              <h2 className="text-2xl font-bold text-gray-800">{movie.title}</h2>
-              <p className="text-gray-700 line-clamp-3">{movie.description}</p>
-              <div className="flex justify-between text-gray-600 text-sm">
+              <h2 className="text-2xl font-bold text-white">{movie.title}</h2>
+              <p className="text-white line-clamp-3">{movie.description}</p>
+              <div className="flex justify-between text-white text-sm">
                 <span>⏳ {movie.duration} mins</span>
                 <span>🌐 {movie.language}</span>
               </div>
-              <div className="text-sm text-gray-600">🎭 Genre: {movie.genre}</div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-white">🎭 Genre: {movie.genre}</div>
+              <div className="text-sm text-white">
                 📅 Release:{" "}
                 {new Date(movie.release_date).toLocaleDateString("en-GB")}
               </div>
-              <div className="text-sm text-gray-600">⭐ IMDb: {movie.imdb_rating}</div>
+              <div className="text-sm text-white">⭐ IMDb: {movie.imdb_rating}</div>
               <a
                 href={movie.trailer_link}
                 target="_blank"
@@ -72,10 +70,10 @@ export const Movies = () => {
 
               {/* New Button to redirect to Theaters Page */}
               <button
-                onClick={() => window.location.href = "http://localhost:5173/theaters"}
+                onClick={() => (window.location.href = "http://localhost:5173/theaters")}
                 className="bg-green-500 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-green-600 transition"
               >
-                View Theaters
+                Book Ticket
               </button>
             </div>
           ))}

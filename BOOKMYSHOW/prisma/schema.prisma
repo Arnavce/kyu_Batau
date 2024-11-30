@@ -49,6 +49,7 @@ model User {
   created_at    DateTime @default(now())
   bookings      Booking[]
   movie_reviews MovieReview[]
+  transactions  Transaction[]
 }
 
 model Theater {
@@ -112,6 +113,7 @@ model Ticket {
   issue_date   DateTime
 }
 
+
 model Seat {
   id              Int     @id @default(autoincrement())
   show_id         Int
@@ -142,17 +144,17 @@ model Booking {
   total_amount    Float
   status          Status
   payments        Payment[]
-  transaction_id  String
-  transaction     Transaction @relation(fields: [transaction_id], references: [id])
   tickets         Ticket[]
 }
 
 model Transaction {
+  user_id         Int
+  user            User       @relation(fields: [user_id], references: [id])
   id              String     @id @default(uuid())
   transaction_date DateTime
   amount          Float
   status          Status
-  bookings        Booking[]
+  payment        Payment[]
 }
 
 model Payment {
@@ -163,7 +165,9 @@ model Payment {
   payment_amount  Float
   payment_method  Method
   payment_status  Status
-  transaction_id  String
+  transaction_id  String 
+  transaction     Transaction       @relation(fields: [transaction_id], references: [id])
+
 }
 
 model MovieCast {

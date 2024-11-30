@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaBitcoin, FaCheckCircle } from 'react-icons/fa'; // Importing icons from react-icons
+import { FaBitcoin, FaCheckCircle } from 'react-icons/fa'; 
 
 const PaymentScreen = () => {
   const [message, setMessage] = useState('Connecting to your crypto wallet...');
@@ -9,12 +9,12 @@ const PaymentScreen = () => {
 
   // Step-by-step message update
   useEffect(() => {
-    const timer = setTimeout(() => setMessage('Making payment... in progress'), 2000); // Display after 2 seconds
-    const timer2 = setTimeout(() => setMessage('SUCCESS! Download your tickets and enjoy the show'), 4000); // Display after 4 seconds
+    const timer = setTimeout(() => setMessage('Making payment... in progress'), 2000); 
+    const timer2 = setTimeout(() => setMessage('SUCCESS! Download your tickets and enjoy the show'), 4000);
 
     // Redirect after 6 seconds
     const redirectTimer = setTimeout(() => {
-      setIsLoading(false);  // Hide the loading animation
+      setIsLoading(false);  
     }, 6000);
 
     // Cleanup timers
@@ -25,13 +25,13 @@ const PaymentScreen = () => {
     };
   }, []);
 
-  // Handle redirection to tickets page
+  
   const handleGetTickets = () => {
     navigate('/tickets'); // Redirect to tickets page
   };
 
   return (
-    <div className="bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600 min-h-screen flex justify-center items-center py-6">
+    <div className="bg-gradient-to-r  from-black via-blue-900 to-blue-700 min-h-screen flex justify-center items-center py-6">
       <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm space-y-4 text-center">
         {isLoading ? (
           <>

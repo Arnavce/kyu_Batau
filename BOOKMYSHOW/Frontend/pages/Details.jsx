@@ -10,11 +10,9 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetching all movies
         const movieResponse = await axios.get("http://localhost:3000/movies");
         setMovies(movieResponse.data);
 
-        // Fetching cast, crew, and reviews data
         const castResponse = await axios.get("http://localhost:3000/moviedetails/cast");
         setCasts(castResponse.data);
 
@@ -32,101 +30,104 @@ const Details = () => {
   }, []);
 
   if (!movies || !casts || !crews || !reviews) {
-    return <div>Loading...</div>;
+    return <div className="text-center text-white">Loading...</div>;
   }
 
   return (
-    
-    <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen py-10">
-      {/* Loop through movies and show their details with Cast, Crew, and Reviews */}
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="bg-gradient-to-r from-gray-900 via-blue-800 to-black min-h-screen py-10 px-4">
+      <h1 className="text-4xl font-bold text-white text-center mb-10">Movie Details</h1>
+
+      <div className="max-w-7xl mx-auto space-y-10">
         {movies.map((movie) => (
-          
-          <div key={movie.id} className="bg-white rounded-lg shadow-lg p-6 space-y-6">
-            {/* Movie Title and Basic Info */}
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-gray-800">{movie.title}</h2>
-              <p className="text-gray-600">{movie.description}</p>
-              <div className="flex justify-between text-gray-600 text-sm">
-                <span>⏳ {movie.duration} mins</span>
-                <span>🌐 {movie.language}</span>
-                <span>⭐ IMDb: {movie.imdb_rating}</span>
-              </div>
-                 {/* Image section */}
-                 <div className="flex justify-center">
+          <div key={movie.id} className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+            {/* Movie Poster */}
+            <div className="md:flex">
+              <div className="md:w-1/1">
                 <img
-                  src={movie.image_url || "https://s.studiobinder.com/wp-content/uploads/2019/06/Movie-Poster-Template-Movie-Credits-StudioBinder.jpg"} // Placeholder for image, replace it later with the actual URL
-                  alt={`${movie.title} Poster`}
-                  className="w-64 h-96 object-cover rounded-lg shadow-lg mb-4"
+                  src={movie.image_url || "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg"}
+                  alt={movie.title}
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <a
-                href={movie.trailer_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 text-white py-2 px-4 rounded-lg text-center block hover:bg-blue-600 transition"
-              >
-                Watch Trailer
-              </a>
+
+              {/* Movie Info */}
+              <div className="md:w-2/3 p-6">
+                <h2 className="text-3xl font-bold text-white">{movie.title}</h2>
+                <p className="text-white mt-4">{movie.description}</p>
+
+                <div className="mt-4 text-sm text-white">
+                  <p>⏳ Duration: {movie.duration} mins</p>
+                  <p>🌐 Language: {movie.language}</p>
+                  <p>⭐ IMDb: {movie.imdb_rating}</p>
+                  <p>📅 Release Date: {new Date(movie.release_date).toLocaleDateString("en-GB")}</p>
+                </div>
+
+                <a
+                  href={movie.trailer_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg mt-6 hover:bg-blue-700 transition"
+                >
+                  Watch Trailer
+                </a>
+              </div>
             </div>
-               
 
-            {/* Movie ID: Additional Information (Cast, Crew, Review) */}
-            <div className="space-y-4">
-              <h3 className="text-2xl font-semibold text-gray-800">Movie ID: {movie.id}</h3>
-
-              {/* Cast Section */}
-              <div className="space-y-4 text-center">
-                <h3 className="text-2xl font-semibold text-gray-800">Cast</h3>
-                <div className="space-y-2">
+            {/* Additional Sections */}
+            <div className="p-6 space-y-6 bg-gray-800 rounded-lg mt-6">
+              {/* Cast Card */}
+              <div className="bg-[#1E2A47] p-4 rounded-xl shadow-md">
+                <h3 className="text-2xl font-semibold text-white">Cast</h3>
+                <div className="flex flex-wrap gap-4 mt-4">
                   {casts
                     .filter((cast) => cast.movie_id === movie.id)
                     .map((cast) => (
-                      <div key={cast.id} className="border-b py-2">
-                        <p className="text-gray-700">
-                          <strong>{cast.actor_name}</strong> as {cast.role}
-                        </p>
+                      <div key={cast.id} className="bg-[#2C3E50] rounded-lg p-4 shadow-md">
+                        <p className="text-white font-medium">{cast.actor_name}</p>
+                        <p className="text-gray-400 text-sm">as {cast.role}</p>
                       </div>
                     ))}
                 </div>
               </div>
 
-              {/* Crew Section */}
-              <div className="space-y-4 text-center">
-                <h3 className="text-2xl font-semibold text-gray-800">Crew</h3>
-                <div className="space-y-2">
+              {/* Crew Card */}
+              <div className="bg-[#1E2A47] p-4 rounded-xl shadow-md mt-6">
+                <h3 className="text-2xl font-semibold text-white">Crew</h3>
+                <div className="flex flex-wrap gap-4 mt-4">
                   {crews
                     .filter((crew) => crew.movie_id === movie.id)
                     .map((crew) => (
-                      <div key={crew.id} className="border-b py-2">
-                        <p className="text-gray-700">
-                          <strong>{crew.crew_member_name}</strong> - {crew.role}
-                        </p>
+                      <div key={crew.id} className="bg-[#2C3E50] rounded-lg p-4 shadow-md">
+                        <p className="text-white font-medium">{crew.crew_member_name}</p>
+                        <p className="text-gray-400 text-sm">{crew.role}</p>
                       </div>
                     ))}
                 </div>
               </div>
 
-              {/* Reviews Section */}
-              <div className="space-y-4 text-center">
-                <h3 className="text-2xl font-semibold text-gray-800">Reviews</h3>
-                {reviews.length > 0 ? (
-                  reviews
+              {/* Reviews Card */}
+              <div className="bg-[#1E2A47] p-4 rounded-xl shadow-md mt-6">
+                <h3 className="text-2xl font-semibold text-white">Reviews</h3>
+                <div className="space-y-4 mt-4">
+                  {reviews
                     .filter((review) => review.movie_id === movie.id)
                     .map((review) => (
-                      <div key={review.id} className="border-t pt-4 space-y-2">
-                        <p className="text-gray-700 font-medium">
-                          <strong>{review.user.username}</strong> ({review.rating})
-                        </p>
-                        <p className="text-gray-600">{review.review_text}</p>
+                      <div
+                        key={review.id}
+                        className="bg-[#2C3E50] rounded-lg p-4 shadow-md space-y-2"
+                      >
+                        <p className="text-white font-medium">{review.user.username}</p>
+                        <p className="text-gray-400">{review.review_text}</p>
                         <p className="text-gray-500 text-sm">
-                          Reviewed on: {new Date(review.review_date).toLocaleDateString("en-GB")}
+                          Reviewed on:{" "}
+                          {new Date(review.review_date).toLocaleDateString("en-GB")}
                         </p>
                       </div>
-                    ))
-                ) : (
-                  <p className="text-gray-600">No reviews yet.</p>
-                )}
+                    ))}
+                  {reviews.filter((review) => review.movie_id === movie.id).length === 0 && (
+                    <p className="text-gray-400">No reviews yet.</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>

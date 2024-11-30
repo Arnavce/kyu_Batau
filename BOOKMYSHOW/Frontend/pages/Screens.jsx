@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom"; 
 
 const ScreenDisplay = () => {
   const [screens, setScreens] = useState([]);
 
   useEffect(() => {
-    // Fetch the screens data from the backend
+ 
     const fetchScreens = async () => {
       try {
         const response = await axios.get("http://localhost:3000/screens");
@@ -20,7 +20,7 @@ const ScreenDisplay = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-indigo-400 via-blue-500 to-green-500 min-h-screen py-10 px-4">
+    <div className="bg-gradient-to-r from-black via-blue-900 to-blue-700 min-h-screen py-10 px-4">
       <h1 className="text-4xl font-bold text-white text-center mb-10">Theater Screens</h1>
 
       {/* Wrapping everything in a container with a border */}
@@ -40,7 +40,7 @@ const ScreenDisplay = () => {
               {/* Button to navigate to Seat References page */}
               <Link
                 to="/shows"
-                className="bg-red-600 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-blue-600 transition"
+                className="bg-green-500 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-blue-600 transition"
               >
                 Shows
               </Link>

@@ -18,7 +18,7 @@ export const Theaters = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-indigo-400 via-blue-500 to-green-500 min-h-screen py-10 px-4">
+    <div className="bg-gradient-to-r from-black via-blue-900 to-blue-700 min-h-screen py-10 px-4">
       <h1 className="text-4xl font-bold text-white text-center mb-10">
         Theaters Collection
       </h1>

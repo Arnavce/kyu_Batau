@@ -1,86 +1,115 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API requests
 
 export const Bookings = () => {
-  // Get the current date and time in ISO format
-  const currentDate = new Date().toISOString();
-
-  // Hardcoded data for a booking for the movie "Inception"
-  const bookingData = {
-    id: 1,
-    user_id: 101,
-    user: {
-      id: 101,
-      name: 'Bat Man ',
-      email: 'Rishabh@example.com',
-    },
-    show_id: 3, // Example Show ID for Inception
-    show: {
-      id: 3,
-      movie_id: 1,
-      screen_id: 2,
-      show_time: "2024-11-21T10:00:00.000Z",
-      price: 250,
-      available_seats: 150,
-      movie: {
-        id: 1,
-        title: "Inception",
-        genre: "Sci-Fi",
-        director: "Christopher Nolan",
-      },
-    },
-    booking_date: currentDate, // Set booking date to current date and time
-    total_amount: 389, // Assume the user booked 2 tickets
-    status: "Confirmed",
-    transaction_id: "tx12345", // Example transaction ID
-    transaction: {
-      id: "tx12345",
-      transaction_date: currentDate, // Set transaction date to current date and time
-      amount: 489,
-      status: "Completed",
-    },
-    tickets: [
-      {
-        id: 1,
-        seat_number: "A1",
-        ticket_price: 250,
-        issue_date: currentDate, // Set issue date to current date and time
-      }
-    ],
-  };
-
+  const [bookingData, setBookingData] = useState(null);
+  const [showData, setShowData] = useState(null);
+  const [movieData, setMovieData] = useState(null);
+  const [screenData, setScreenData] = useState(null);
   const navigate = useNavigate();
 
-  const handleProceedClick = () => {
-    navigate('/transactions');
+  // Fetch data function
+  useEffect(() => {
+    const fetchBookingData = async () => {
+      try {
+        const bookingResponse = await fetch("http://localhost:3000/bookings");
+        const bookingData = await bookingResponse.json();
+
+        if (bookingData && bookingData.length > 0) {
+          const booking = bookingData[bookingData.length - 1]; // Assuming we are fetching the last booking
+          setBookingData(booking);
+
+          // Fetch associated show data
+          const showResponse = await fetch("http://localhost:3000/shows");
+          const shows = await showResponse.json();
+          const show = shows.find(show => show.id === booking.show_id);
+          setShowData(show);
+
+          // Fetch associated movie data
+          const movieResponse = await fetch("http://localhost:3000/movies");
+          const movies = await movieResponse.json();
+          const movie = movies.find(movie => movie.id === show.movie_id);
+          setMovieData(movie);
+
+          // Fetch associated screen data
+          const screenResponse = await fetch("http://localhost:3000/screens");
+          const screens = await screenResponse.json();
+          const screen = screens.find(screen => screen.id === show.screen_id);
+          setScreenData(screen);
+        } else {
+          console.error("No booking data found");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchBookingData();
+  }, []);
+
+  // Handle the "Make Payment" button click
+  const handleMakePaymentClick = async () => {
+    // Extract the required data for the new ticket
+    const ticketData = {
+      show_id: showData.id,
+      booking_id: bookingData.id,
+      seat_number: 'A1', // Assuming seat is 'A1', but this can be dynamically set based on user selection
+      ticket_price: showData.price, // Use the price from the show data or another calculation
+    };
+
+    try {
+      // Send the POST request to create the ticket
+      const response = await axios.post('http://localhost:3000/tickets', ticketData);
+      console.log('Ticket created successfully:', response.data);
+
+      // Optionally, redirect to another page (e.g., transaction success page)
+      navigate('/transactions');
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+    }
   };
 
+  if (!bookingData || !showData || !movieData || !screenData) {
+    return (
+      <div className="bg-gradient-to-r from-black via-blue-900 to-blue-700 min-h-screen py-10 flex items-center justify-center">
+        <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full space-y-4">
+          <p className="text-center text-gray-800">Loading booking details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const pricePerTicket = showData.price;
+  const tax = 0.18; // 18% tax
+  const totalAmount = pricePerTicket + (pricePerTicket * tax); // Price + Tax
+
   return (
-    <div className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 min-h-screen py-10 flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full space-y-4">
+    <div className="bg-gradient-to-r from-black via-blue-900 to-blue-700 min-h-screen py-10 flex items-center justify-center">
+      <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full space-y-6">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Booking Details</h1>
 
         <div className="text-gray-700">
-          <p><strong>User:</strong> {bookingData.user.name}</p>
+          <p><strong>User:</strong> {bookingData.user.username}</p>
           <p><strong>Email:</strong> {bookingData.user.email}</p>
-          <p><strong>Show:</strong> {bookingData.show.movie.title}</p>
-          <p><strong>Show Time:</strong> {new Date(bookingData.show.show_time).toLocaleString()}</p>
-          <p><strong>Price per Ticket:</strong> ₹{bookingData.show.price}</p>
-          <p><strong>Total Amount:</strong> ₹{bookingData.total_amount}</p>
+          <p><strong>Phone:</strong> {bookingData.user.phone_number}</p>
+          <p><strong>Location:</strong> {bookingData.user.location}</p>
+
+          <hr className="my-4" />
+
+          <p><strong>Show:</strong> {movieData.title}</p>
+          <p><strong>Movie Genre:</strong> {movieData.genre}</p>
+          <p><strong>Show Time:</strong> {new Date(showData.show_time).toLocaleString()}</p>
+          <p><strong>Screen Type:</strong> {screenData.screen_type}</p>
+          <p><strong>Price per Ticket:</strong> ₹{pricePerTicket}</p>
+          <p><strong>Total Amount:</strong> ₹{totalAmount.toFixed(2)}</p>
           <p><strong>Status:</strong> {bookingData.status}</p>
           <p><strong>Booking Date:</strong> {new Date(bookingData.booking_date).toLocaleString()}</p>
-          <h3 className="text-xl font-semibold mt-4">Tickets:</h3>
-          {bookingData.tickets.map((ticket, index) => (
-            <div key={index} className="mt-2">
-              <p><strong>Seat:</strong> {ticket.seat_number}</p>
-              <p><strong>Issued On:</strong> {new Date(ticket.issue_date).toLocaleString()}</p>
-            </div>
-          ))}
         </div>
 
-        <div className="text-center mt-4">
+        <div className="text-center mt-6">
           <button
-            onClick={handleProceedClick}
+            onClick={handleMakePaymentClick}
             className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition"
           >
             Click to Make Payment

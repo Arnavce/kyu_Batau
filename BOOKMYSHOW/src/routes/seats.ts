@@ -4,7 +4,6 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Create a new seat
 router.post("/", async (req, res) => {
   const {
     show_id,
@@ -31,7 +30,6 @@ router.post("/", async (req, res) => {
   res.json({ msg: "Seat added to the database", seat: response });
 });
 
-// Get all seats
 router.get("/", async (req, res) => {
   const all_seats = await prisma.seat.findMany();
   res.json(all_seats);

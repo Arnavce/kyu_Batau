@@ -4,7 +4,6 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Route to create a new screen for a specific theater
 router.post("/", async (req, res) => {
   const { theater_id, screen_type, total_seats } = req.body;
 
@@ -29,14 +28,13 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Route to get all screens (optionally filtered by theater_id)
-router.get("/", async (req, res) => {
+router.get("/", async (req , res) => {
   try {
     const screens = await prisma.screen.findMany({
       select: {
         id: true,
         screen_type: true,
-        total_seats: true, // Include other fields you want to return
+        total_seats: true, 
       },
     });
     res.json(screens);

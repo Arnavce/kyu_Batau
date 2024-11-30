@@ -1,0 +1,190 @@
+http://localhost:3000/movies
+
+
+{
+  "title": "Iron Man",
+  "description": "After being kidnapped by terrorists, industrialist Tony Stark builds a high-tech suit of armor to escape and fight against enemies.",
+  "duration": 126,
+  "release_date": "2008-05-02T00:00:00.000Z",
+  "language": "English",
+  "genre": "Action, Sci-Fi, Adventure",
+  "imdb_rating": 7.9,
+  "trailer_link": "https://www.youtube.com/watch?v=8hYlB38kP8E"
+}
+
+{
+  "title": "Iron Man 2",
+  "description": "Tony Stark grapples with his identity as Iron Man while facing new enemies and dealing with government pressure to share his technology.",
+  "duration": 124,
+  "release_date": "2010-05-07T00:00:00.000Z",
+  "language": "English",
+  "genre": "Action, Sci-Fi, Adventure",
+  "imdb_rating": 7.0,
+  "trailer_link": "https://www.youtube.com/watch?v=YMmtnn2Rqa0"
+}
+
+
+{
+  "title": "Iron Man 3",
+  "description": "Tony Stark faces a new enemy known as the Mandarin while struggling with the psychological toll of being Iron Man after the events of The Avengers.",
+  "duration": 130,
+  "release_date": "2013-05-03T00:00:00.000Z",
+  "language": "English",
+  "genre": "Action, Sci-Fi, Adventure",
+  "imdb_rating": 7.2,
+  "trailer_link": "https://www.youtube.com/watch?v=Ke1Y3P9D0Bc"
+}
+
+
+for http://localhost:3000/moviedetails/cast
+
+{
+  "movie_id": 1, 
+  "actor_name": "Robert Downey Jr.", 
+  "role": "Tony Stark / Iron Man"
+}
+
+
+{
+  "movie_id": 1, 
+  "actor_name": "Gwyneth Paltrow", 
+  "role": "Virginia 'Pepper' Potts"
+}
+
+
+for http://localhost:3000/moviedetails/crew
+
+{
+  "movie_id": 1, 
+  "crew_member_name": "Jon Favreau", 
+  "role": "Director"
+}
+
+
+{
+  "movie_id": 1, 
+  "crew_member_name": "Stane Lee", 
+  "role": "Producer"
+}
+
+for http://localhost:3000/moviedetails/crew
+
+{
+  "movie_id": 1, 
+  "user_id": 1, 
+  "review_text": "Great origin story for Iron Man. Excellent performances and a solid script!", 
+  "rating": 8
+}
+
+http://localhost:3000/theaters
+
+
+{
+  "name": "PVR Cinemas",
+  "location": "Connaught Place, Delhi",
+  "total_screens": 5
+}
+
+
+{
+  "name": "Inox",
+  "location": "Janakpuri, Delhi",
+  "total_screens": 6
+}
+
+{
+  "name": "Cinepolis",
+  "location": "Saket, Delhi",
+  "total_screens": 8
+}
+
+{
+  "name": "Carnival Cinemas",
+  "location": "East Delhi, Delhi",
+  "total_screens": 4
+}
+
+http://localhost:3000/screens 
+
+{
+  "theater_id": 1,
+  "screen_type": "IMAX",
+  "total_seats": 200
+}
+
+{
+  "theater_id": 1,
+  "screen_type": "2D",
+  "total_seats": 150
+}
+
+{
+  "theater_id": 1,
+  "screen_type": "3D",
+  "total_seats": 100
+}
+
+{
+  "theater_id": 1,
+  "screen_type": "8D",
+  "total_seats": 150
+}
+
+http://localhost:3000/shows
+
+{
+  "movie_id": 1,      
+  "screen_id": 2,      
+  "show_time": "2024-12-01T16:30:00.000Z",  
+  "price": 250,          
+  "available_seats": 150 
+}
+
+{
+  "movie_id": 1,      
+  "screen_id": 2,      
+  "show_time": "2024-12-01T14:30:00.000Z",  
+  "price": 200,          
+  "available_seats": 150 
+}
+
+{
+  "movie_id": 1,      
+  "screen_id": 2,      
+  "show_time": "2024-12-01T10:30:00.000Z",  
+  "price": 350,          
+  "available_seats": 150 
+}
+
+http://localhost:3000/seatreferences
+
+{
+  "theater_id": 1, 
+  "seat_type": "LUXURY",
+  "description": "Seats with extra comfort, reclining functionality, and premium service."
+}
+
+{
+  "theater_id": 1, 
+  "seat_type": "REGULAR",
+  "description": "Standard seats for general viewing."
+}
+
+{
+  "theater_id": 1, 
+  "seat_type": "STANDARD",
+  "description": "Basic seats offering standard comfort."
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

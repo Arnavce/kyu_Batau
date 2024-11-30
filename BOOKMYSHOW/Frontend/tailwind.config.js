@@ -7,7 +7,11 @@ export default {
     './components/**/*.{html,js,jsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-orange': '#FDA481', // Adding your custom color
+      },
+    },
   },
   plugins: [],
 }

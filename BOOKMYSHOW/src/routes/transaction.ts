@@ -4,31 +4,31 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Create a new transaction
 router.post("/", async (req, res) => {
-  const { transaction_date, amount, status, booking_ids } = req.body;
+  const { user_id, transaction_date, amount, status } = req.body;
 
-  // Create a new transaction
-  const response = await prisma.transaction.create({
-    data: {
-      transaction_date,
-      amount,
-      status,
-      bookings: {
-        connect: booking_ids.map((id: number) => ({ id })) // Connect bookings by their IDs
-      }
-    }
-  });
+  try {
+    const response = await prisma.transaction.create({
+      data: {
+        user_id,              
+        transaction_date,      
+        amount,                
+        status,               
+      },
+    });
 
-  res.json({ msg: "Transaction created successfully", transaction: response });
+    res.json({ msg: "Transaction created successfully", transaction: response });
+  } catch (error) {
+    console.error("Error creating transaction:", error);
+    res.status(500).json({ msg: "Error creating transaction" });
+  }
 });
 
-// Get all transactions
 router.get("/", async (req, res) => {
   const all_transactions = await prisma.transaction.findMany({
     include: {
-      bookings: true,  // Include associated bookings
-    },
+      user: true,          
+        },
   });
 
   res.json(all_transactions);

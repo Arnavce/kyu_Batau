@@ -37,7 +37,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             booking_date,
             total_amount,
             status: client_1.Status.BOOKED, // Default status set to 'BOOKED'
-            transaction_id,
         },
     });
     res.json({ msg: "Booking created successfully", booking: response });
