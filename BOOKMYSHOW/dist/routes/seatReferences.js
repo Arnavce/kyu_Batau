@@ -16,7 +16,6 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
-// Create a new seat reference
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { theater_id, seat_type, description } = req.body;
     const response = yield prisma.seatReference.create({
@@ -28,7 +27,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     res.json({ msg: "Seat Reference added to the database", seatReference: response });
 }));
-// Get all seat references
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_seat_references = yield prisma.seatReference.findMany();
     res.json(all_seat_references);

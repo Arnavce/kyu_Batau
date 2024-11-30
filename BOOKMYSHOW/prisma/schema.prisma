@@ -64,6 +64,7 @@ model Theater {
 model Movie {
   id             Int     @id @default(autoincrement())
   title          String
+  movie_poster   String
   description    String
   duration       Int
   release_date   DateTime

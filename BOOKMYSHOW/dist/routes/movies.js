@@ -17,10 +17,11 @@ const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, description, duration, release_date, language, genre, imdb_rating, trailer_link, } = req.body;
+    const { title, movie_poster, description, duration, release_date, language, genre, imdb_rating, trailer_link, } = req.body;
     const response = yield prisma.movie.create({
         data: {
             title,
+            movie_poster,
             description,
             duration,
             release_date,

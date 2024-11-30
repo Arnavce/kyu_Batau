@@ -30,7 +30,7 @@ router.post("/cast", (req, res) => __awaiter(void 0, void 0, void 0, function* (
 }));
 router.get("/cast", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_casts = yield prisma.movieCast.findMany({
-        include: { movie: true }, // Include associated movie data
+        include: { movie: true },
     });
     res.json(all_casts);
 }));
@@ -48,7 +48,7 @@ router.post("/crew", (req, res) => __awaiter(void 0, void 0, void 0, function* (
 }));
 router.get("/crew", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_crew = yield prisma.movieCrew.findMany({
-        include: { movie: true }, // Include associated movie data
+        include: { movie: true },
     });
     res.json(all_crew);
 }));
@@ -69,8 +69,8 @@ router.post("/review", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.get("/review", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_reviews = yield prisma.movieReview.findMany({
         include: {
-            movie: true, // Include associated movie data
-            user: true, // Include associated user data
+            movie: true,
+            user: true,
         },
     });
     res.json(all_reviews);

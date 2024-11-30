@@ -16,38 +16,33 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
-// Create a new booking
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user_id, show_id, booking_date, seat_numbers, transaction_id } = req.body;
-    // Fetch the ticket prices based on the provided seat numbers
     const tickets = yield prisma.ticket.findMany({
         where: {
-            seat_number: { in: seat_numbers }, // Assuming seat_numbers is an array of seat numbers
-            show_id: show_id, // Ensure tickets belong to the correct show
+            seat_number: { in: seat_numbers },
+            show_id: show_id,
         },
-        select: { ticket_price: true }, // Only get the ticket price
+        select: { ticket_price: true },
     });
-    // Calculate the total amount based on the ticket prices
     const total_amount = tickets.reduce((sum, ticket) => sum + ticket.ticket_price, 0);
-    // Create the booking and associate tickets with it
     const response = yield prisma.booking.create({
         data: {
             user_id,
             show_id,
             booking_date,
             total_amount,
-            status: client_1.Status.BOOKED, // Default status set to 'BOOKED'
+            status: client_1.Status.BOOKED,
         },
     });
     res.json({ msg: "Booking created successfully", booking: response });
 }));
-// Get all bookings
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_bookings = yield prisma.booking.findMany({
         include: {
             user: true,
             show: true,
-            tickets: true, // Include tickets related to the booking
+            tickets: true,
         },
     });
     res.json(all_bookings);

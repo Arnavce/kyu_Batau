@@ -16,7 +16,6 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
-// Create a new seat
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { show_id, seat_number, is_booked, seat_row, seat_column, preference_id, preference_score, } = req.body;
     const response = yield prisma.seat.create({
@@ -32,7 +31,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     res.json({ msg: "Seat added to the database", seat: response });
 }));
-// Get all seats
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_seats = yield prisma.seat.findMany();
     res.json(all_seats);

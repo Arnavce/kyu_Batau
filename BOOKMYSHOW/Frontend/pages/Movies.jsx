@@ -34,7 +34,7 @@ export const Movies = () => {
             >
               {/* Movie Poster */}
               <img
-                src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg"
+                src= {movie.movie_poster}
                 alt={`${movie.title} Poster`}
                 className="w-full h-88 object-cover rounded-lg mb-4"
               />

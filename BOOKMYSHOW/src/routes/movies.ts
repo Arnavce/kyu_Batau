@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const {
     title,
+    movie_poster,
     description,
     duration,
     release_date,
@@ -18,6 +19,7 @@ router.post("/", async (req, res) => {
   const response = await prisma.movie.create({
     data: {
       title,
+      movie_poster,
       description,
       duration,
       release_date,

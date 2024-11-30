@@ -16,7 +16,6 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
-// Route to create a new theater
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, location, total_screens } = req.body;
     try {
@@ -37,7 +36,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ error: "An error occurred while adding the theater." });
     }
 }));
-// Route to get all theaters
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const theaters = yield prisma.theater.findMany();

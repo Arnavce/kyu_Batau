@@ -16,17 +16,15 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
 const router = express_1.default.Router();
-// Create a new transaction
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user_id, transaction_date, amount, status } = req.body;
-    // Create a new transaction
     try {
         const response = yield prisma.transaction.create({
             data: {
-                user_id, // User ID
-                transaction_date, // Date of the transaction
-                amount, // Transaction amount
-                status, // Transaction status (enum)
+                user_id,
+                transaction_date,
+                amount,
+                status,
             },
         });
         res.json({ msg: "Transaction created successfully", transaction: response });
@@ -36,7 +34,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ msg: "Error creating transaction" });
     }
 }));
-// Get all transactions
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const all_transactions = yield prisma.transaction.findMany({
         include: {
