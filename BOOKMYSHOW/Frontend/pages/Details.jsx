@@ -29,7 +29,7 @@ const Details = () => {
     fetchData();
   }, []);
 
-  if (!movies || !casts || !crews || !reviews) {
+  if (!movies.length || !casts.length || !crews.length || !reviews.length) {
     return <div className="text-center text-white">Loading...</div>;
   }
 
@@ -42,9 +42,9 @@ const Details = () => {
           <div key={movie.id} className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
             {/* Movie Poster */}
             <div className="md:flex">
-              <div className="md:w-1/1">
+              <div className="md:w-1/3">
                 <img
-                  src={movie.image_url || "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg"}
+                  src={movie.movie_poster}
                   alt={movie.title}
                   className="w-full h-full object-cover"
                 />

@@ -13,6 +13,7 @@ import TicketPage from "../pages/Tickets.jsx";
 import LoginPage from "../pages/Login.jsx";
 import Home from "../pages/Home.jsx";
 import SignupPage from "../pages/Signup.jsx";
+import UserBookings from "../pages/UserBookings"; // Import the new component
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage/>} />
           <Route path="/" element={<Home />} />
+          <Route path="/userbookings/:userId" element={<UserBookings />} /> {/* New route for user bookings */}
 
           
         </Routes>

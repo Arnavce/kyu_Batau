@@ -33,14 +33,18 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const all_bookings = await prisma.booking.findMany({
-    include: {
-      user: true,
-      show: true,
-      tickets: true, 
-    },
-  });
-  res.json(all_bookings);
+    const { user_id } = req.query;
+    const all_bookings = await prisma.booking.findMany({
+        where: {
+            user_id: user_id ? Number(user_id) : undefined,
+        },
+        include: {
+            user: true,
+            show: true,
+            tickets: true,
+        },
+    });
+    res.json(all_bookings);
 });
 
 export default router;

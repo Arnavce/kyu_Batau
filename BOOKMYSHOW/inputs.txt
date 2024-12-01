@@ -167,7 +167,7 @@ http://localhost:3000/seatreferences
 {
   "theater_id": 1, 
   "seat_type": "REGULAR",
-  "description": "Standard seats for general viewing."
+  "description": "affordable seats for general viewing."
 }
 
 {

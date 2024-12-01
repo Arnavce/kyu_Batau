@@ -38,7 +38,11 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ msg: "Booking created successfully", booking: response });
 }));
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { user_id } = req.query;
     const all_bookings = yield prisma.booking.findMany({
+        where: {
+            user_id: user_id ? Number(user_id) : undefined,
+        },
         include: {
             user: true,
             show: true,

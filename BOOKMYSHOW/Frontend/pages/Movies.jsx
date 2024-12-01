@@ -40,7 +40,7 @@ export const Movies = () => {
               />
 
               <h2 className="text-2xl font-bold text-white">{movie.title}</h2>
-              <p className="text-white line-clamp-3">{movie.description}</p>
+              {/* <p className="text-white line-clamp-3">{movie.description}</p> */}
               <div className="flex justify-between text-white text-sm">
                 <span>⏳ {movie.duration} mins</span>
                 <span>🌐 {movie.language}</span>
@@ -55,7 +55,7 @@ export const Movies = () => {
                 href={movie.trailer_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-red-500 text-white py-2 px-4 rounded-lg text-center block hover:bg-blue-600 transition"
+                className="bg-yellow-300 text-black py-2 px-4 rounded-lg text-center block hover:bg-blue-600 transition"
               >
                 Watch Trailer
               </a>
@@ -65,15 +65,15 @@ export const Movies = () => {
                 to={`/moviedetails/${movie.id}`}
                 className="bg-blue-500 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-blue-600 transition"
               >
-                Go to Review Page
+                Movie Details
               </Link>
 
               {/* New Button to redirect to Theaters Page */}
               <button
                 onClick={() => (window.location.href = "http://localhost:5173/theaters")}
-                className="bg-green-500 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-green-600 transition"
+                className="bg-red-500 text-white py-2 px-4 rounded-lg text-center block mt-4 hover:bg-green-600 transition"
               >
-                Book Ticket
+                <b>Book Ticket</b>
               </button>
             </div>
           ))}

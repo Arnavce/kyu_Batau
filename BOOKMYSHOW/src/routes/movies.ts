@@ -37,4 +37,20 @@ router.get("/", async (req, res) => {
   res.json(all_movies);
 });
 
+router.get("/:movie_id", async (req, res) => {
+  const movieId = parseInt(req.params.movie_id); // Get the movie ID from the request parameters and convert to integer
+  try {
+      const movie = await prisma.movie.findUnique({
+          where: { id: movieId }, // Fetch the movie by ID
+      });
+      if (movie) {
+          res.json(movie); // Send the movie data as a response
+      } else {
+          res.status(404).json({ msg: "Movie not found" }); // Handle case where movie is not found
+      }
+  } catch (error) {
+      res.status(500).json({ msg: "Error fetching movie", error }); // Handle any errors
+  }
+});
+
 export default router;
